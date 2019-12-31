@@ -1,0 +1,10 @@
+server:
+  port: 9008
+spring:
+  profiles:
+    active: dev
+  application:  
+    name: sdcommunity-user #指定服务名
+  jpa:
+    database: mysql
+    show-sql: true

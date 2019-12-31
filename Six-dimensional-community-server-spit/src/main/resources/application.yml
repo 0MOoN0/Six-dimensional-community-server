@@ -1,0 +1,7 @@
+server:
+  port: 9006
+spring:
+  application:
+    name: sdcommunity-spit
+  profiles:
+    active: dev

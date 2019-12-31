@@ -1,0 +1,10 @@
+server:
+  port: 9005
+spring:
+  application:
+    name: sdcommunity-gathering
+  jpa:
+    database: mysql
+    show-sql: true
+  profiles:
+    active: dev

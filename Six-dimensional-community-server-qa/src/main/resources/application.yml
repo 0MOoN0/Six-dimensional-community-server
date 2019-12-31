@@ -1,0 +1,10 @@
+server:
+  port: 9003
+spring:
+  application:
+    name: sdcommunity-qa
+  jpa:
+    database: mysql
+    show-sql: true
+  profiles:
+    active: dev
