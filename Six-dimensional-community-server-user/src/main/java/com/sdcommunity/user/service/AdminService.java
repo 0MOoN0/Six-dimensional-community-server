@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 服务层
@@ -141,4 +142,19 @@ public class AdminService {
 
 	}
 
+	/**
+	 * 用户登陆密码判断
+	 * @param admin
+	 * @return
+	 */
+	public Admin login(Admin admin) {
+		if(admin != null){
+			// 如果查询的用户名不存在，则admin为空
+			Admin loginedAdmin = adminDao.findByLoginname(admin.getLoginname());
+			if(loginedAdmin!=null && bCryptPasswordEncoder.matches(admin.getPassword(),loginedAdmin.getPassword())){
+				return loginedAdmin;
+			}
+		}
+		return null;
+	}
 }

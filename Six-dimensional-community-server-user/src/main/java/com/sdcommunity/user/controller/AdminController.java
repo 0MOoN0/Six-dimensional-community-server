@@ -4,10 +4,12 @@ import com.sdcommunity.user.service.AdminService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import jdk.net.SocketFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +25,17 @@ public class AdminController {
 
 	@Autowired
 	private AdminService adminService;
+
+	@PostMapping("/login")
+	public Result login(@RequestBody Admin admin){
+		admin = adminService.login(admin);
+		if(admin == null){
+			return new Result(false, StatusCode.LOGINERROR.getCode(),StatusCode.LOGINERROR.getMsg());
+		}
+
+		// TODO 20200101 Leon 登陆处理
+		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+	}
 
 	/**
 	 * 查询全部数据

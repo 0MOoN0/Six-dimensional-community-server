@@ -31,6 +31,7 @@ public class SmsListener {
         String code = message.get("code");
         try {
             smsUtil.sendSms(mobile,templateCode,signName,"{\"code\":\""+code+"\"}");
+            System.out.println("Send code: "+code +" to: "+mobile);
         }catch (Exception e){
             // TODO 20191231 Leon：异常处理
             e.printStackTrace();

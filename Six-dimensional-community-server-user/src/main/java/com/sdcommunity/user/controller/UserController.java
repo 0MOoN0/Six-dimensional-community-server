@@ -29,6 +29,15 @@ public class UserController {
 	@Autowired
 	private HttpServletRequest request;
 
+	@PostMapping("/login")
+	public Result login(@RequestBody User user){
+		user = userService.login(user.getMobile(), user.getPassword());
+		if(user == null){
+			return new Result(false, StatusCode.LOGINERROR.getCode(),StatusCode.LOGINERROR.getMsg());
+		}
+		return  new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+	}
+
 
 	//增加关注数
 	@RequestMapping(value = "/incfollow/{userid}/{x}",method = RequestMethod.POST)
@@ -54,9 +63,14 @@ public class UserController {
 		return new Result(true,StatusCode.OK.getCode(),"注册成功");
 	}
 
-	//发送验证码
+	/**
+	 * 发送验证码
+	 * @param mobile
+	 * @return
+	 */
 	@PostMapping("/sendsms/{mobile}")
 	public Result sendSms(@PathVariable String mobile){
+		// TODO 20200101 Leon： 检查手机号是否已经注册
 		userService.sendSms(mobile);
 		return new Result(true, StatusCode.OK.getCode(),"发送成功");
 	}
