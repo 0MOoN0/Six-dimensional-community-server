@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import utils.IdWorker;
 
@@ -31,6 +32,19 @@ public class AdminService {
 	
 	@Autowired
 	private IdWorker idWorker;
+
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	/**
+	 * 添加Admin账户
+	 * @param admin
+	 */
+	public void add(Admin admin){
+		admin.setId(String.valueOf(idWorker.nextId()));
+		admin.setPassword(bCryptPasswordEncoder.encode(admin.getPassword()));
+		adminDao.save(admin);
+	}
 
 
 	/**
