@@ -8,3 +8,7 @@ spring:
   jpa:
     database: mysql
     show-sql: true
+jwt:
+  config:
+    key: sdcommunity
+    ttl: 360000

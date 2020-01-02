@@ -8,6 +8,7 @@ import jdk.net.SocketFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import utils.JwtUtil;
 
 import javax.validation.constraints.NotNull;
 import java.util.HashMap;
@@ -26,15 +27,21 @@ public class AdminController {
 	@Autowired
 	private AdminService adminService;
 
+	@Autowired
+	private JwtUtil jwtUtil;
+
 	@PostMapping("/login")
 	public Result login(@RequestBody Admin admin){
 		admin = adminService.login(admin);
 		if(admin == null){
 			return new Result(false, StatusCode.LOGINERROR.getCode(),StatusCode.LOGINERROR.getMsg());
 		}
-
 		// TODO 20200101 Leon 登陆处理
-		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		String token = jwtUtil.createJWT(admin.getId(), admin.getLoginname(), "admin");
+		Map<String, Object> map = new HashMap<String, Object>(2,1);
+		map.put("token", token);
+		map.put("role",admin);
+		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),map);
 	}
 
 	/**

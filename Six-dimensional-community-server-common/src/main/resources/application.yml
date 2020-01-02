@@ -1,0 +1,4 @@
+jwt:
+  config:
+    key: sdcommunity
+    ttl: 3600000
