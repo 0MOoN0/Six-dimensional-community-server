@@ -2,6 +2,7 @@ package com.sdcommunity.user.service;
 
 import com.sdcommunity.user.dao.UserDao;
 import com.sdcommunity.user.pojo.User;
+import entity.StatusCode;
 import net.bytebuddy.utility.RandomString;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
@@ -15,12 +16,14 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import utils.IdWorker;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -47,6 +50,9 @@ public class UserService {
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	@Autowired
+	private HttpServletRequest httpServletRequest;
 
 
 	//更新关注数
@@ -167,10 +173,14 @@ public class UserService {
 	}
 
 	/**
-	 * 删除
+	 * 删除，需要Admin角色才能删除
 	 * @param id
 	 */
 	public void deleteById(String id) {
+/*		String token = (String) httpServletRequest.getAttribute("admin_claims");
+		if(StringUtils.isEmpty(token)){
+			throw new RuntimeException(StatusCode.ACCESSERROR.getMsg());
+		}*/
 		userDao.deleteById(id);
 	}
 

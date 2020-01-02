@@ -11,4 +11,4 @@ spring:
 jwt:
   config:
     key: sdcommunity
-    ttl: 360000
+    ttl: 600000 # 10分钟过期

@@ -40,7 +40,8 @@ public class AdminController {
 		String token = jwtUtil.createJWT(admin.getId(), admin.getLoginname(), "admin");
 		Map<String, Object> map = new HashMap<String, Object>(2,1);
 		map.put("token", token);
-		map.put("role",admin);
+		// TODO 20200102 Leon：返回对象带有用户密码，需要做处理
+		map.put("role","admin");
 		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),map);
 	}
 
