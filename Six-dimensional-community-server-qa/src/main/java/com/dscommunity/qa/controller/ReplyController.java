@@ -5,10 +5,13 @@ import com.dscommunity.qa.service.ReplyService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -23,7 +26,9 @@ public class ReplyController {
 
 	@Autowired
 	private ReplyService replyService;
-	
+
+	@Autowired
+	private HttpServletRequest httpServletRequest;
 	
 	/**
 	 * 查询全部数据
@@ -72,8 +77,13 @@ public class ReplyController {
 	 * 增加
 	 * @param reply
 	 */
-	@RequestMapping(method=RequestMethod.POST)
+	@PostMapping
 	public Result add(@RequestBody Reply reply  ){
+		// TODO 20200102 Leon：发表回复时，问题的回复数+1
+		Claims claims = (Claims) httpServletRequest.getAttribute("user_claims");
+		if (claims == null) {
+			return new Result(false, StatusCode.ACCESSERROR.getCode(), StatusCode.ACCESSERROR.getMsg());
+		}
 		replyService.add(reply);
 		return new Result(true, StatusCode.OK.getCode(),"增加成功");
 	}

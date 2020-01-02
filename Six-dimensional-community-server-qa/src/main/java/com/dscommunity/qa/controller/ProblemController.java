@@ -5,10 +5,14 @@ import com.dscommunity.qa.service.ProblemService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import utils.JwtUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -20,6 +24,28 @@ public class ProblemController {
 
     @Autowired
     private ProblemService problemService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
+
+
+    /**
+     * 添加问题，需要用户登陆
+     * @param problem
+     * @return
+     */
+    @PostMapping
+    public Result add(@RequestBody Problem problem){
+        Claims claims = (Claims) httpServletRequest.getAttribute("user_claims");
+        if (claims == null) {
+            return new Result(false, StatusCode.ACCESSERROR.getCode(), StatusCode.ACCESSERROR.getMsg());
+        }
+        problemService.add(problem);
+        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+    }
 
     /**
      * 最新问答

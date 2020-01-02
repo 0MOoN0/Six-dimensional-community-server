@@ -56,6 +56,7 @@ public class RecruitController {
 
     @PostMapping
     public Result save(@RequestBody Recruit recruit) {
+        // TODO 20200102 Leon：发布吐槽需要用户登陆
         recruitService.save(recruit);
         return new Result(true, StatusCode.OK.getCode(), "添加成功");
     }

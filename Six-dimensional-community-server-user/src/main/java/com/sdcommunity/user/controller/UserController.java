@@ -8,6 +8,7 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import utils.JwtUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -29,13 +30,20 @@ public class UserController {
 	@Autowired
 	private HttpServletRequest request;
 
+	@Autowired
+	private JwtUtil jwtUtil;
+
 	@PostMapping("/login")
 	public Result login(@RequestBody User user){
 		user = userService.login(user.getMobile(), user.getPassword());
 		if(user == null){
 			return new Result(false, StatusCode.LOGINERROR.getCode(),StatusCode.LOGINERROR.getMsg());
 		}
-		return  new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+		String token = jwtUtil.createJWT(user.getId(), user.getMobile(), "user");
+		Map<String, Object> map = new HashMap<String,Object>(2,1);
+		map.put("token",token);
+		map.put("roles","user");
+		return  new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), map);
 	}
 
 

@@ -91,6 +91,7 @@ public class ArticleController {
 	 */
 	@RequestMapping(method=RequestMethod.POST)
 	public Result add(@RequestBody Article article  ){
+		// TODO 20200102 Leon：添加文章需要登陆
 		articleService.add(article);
 		return new Result(true, StatusCode.OK.getCode(), "增加成功");
 	}

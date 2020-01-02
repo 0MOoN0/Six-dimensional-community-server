@@ -36,7 +36,6 @@ public class AdminController {
 		if(admin == null){
 			return new Result(false, StatusCode.LOGINERROR.getCode(),StatusCode.LOGINERROR.getMsg());
 		}
-		// TODO 20200101 Leon 登陆处理
 		String token = jwtUtil.createJWT(admin.getId(), admin.getLoginname(), "admin");
 		Map<String, Object> map = new HashMap<String, Object>(2,1);
 		map.put("token", token);
