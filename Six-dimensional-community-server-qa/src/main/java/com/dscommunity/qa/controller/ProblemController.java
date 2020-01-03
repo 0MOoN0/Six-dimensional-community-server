@@ -1,5 +1,6 @@
 package com.dscommunity.qa.controller;
 
+import com.dscommunity.qa.client.LabelClient;
 import com.dscommunity.qa.pojo.Problem;
 import com.dscommunity.qa.service.ProblemService;
 import entity.PageResult;
@@ -30,6 +31,15 @@ public class ProblemController {
 
     @Autowired
     private HttpServletRequest httpServletRequest;
+
+    @Autowired
+    private LabelClient labelClient;
+
+    @GetMapping("/label/{labelId}")
+    public Result findLabelById(@PathVariable("labelId") String labelId){
+        Result result = labelClient.findById(labelId);
+        return result;
+    }
 
 
     /**
