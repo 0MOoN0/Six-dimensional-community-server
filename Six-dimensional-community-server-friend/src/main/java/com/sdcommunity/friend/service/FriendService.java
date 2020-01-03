@@ -1,6 +1,7 @@
 package com.sdcommunity.friend.service;
 
 import com.netflix.discovery.converters.Auto;
+import com.sdcommunity.friend.client.UserClient;
 import com.sdcommunity.friend.dao.FriendDao;
 import com.sdcommunity.friend.dao.NoFriendDao;
 import com.sdcommunity.friend.pojo.Friend;
@@ -21,6 +22,9 @@ public class FriendService {
 
     @Autowired
     private NoFriendDao noFriendDao;
+
+    @Autowired
+    private UserClient userClient;
 
     /**
      * 添加好友；
@@ -51,6 +55,11 @@ public class FriendService {
             friend.setIslike("1");
         }
         friendDao.save(friend);
+
+        // friendId增加粉丝数
+        userClient.incFanscount(friendId,1);
+        // UserId增加关注数
+        userClient.incFollowcount(userId,1);
         return 1;
     }
 

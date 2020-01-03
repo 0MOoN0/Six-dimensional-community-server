@@ -34,6 +34,7 @@ import java.util.concurrent.TimeUnit;
  *
  */
 @Service
+@Transactional
 public class UserService {
 
 	@Autowired

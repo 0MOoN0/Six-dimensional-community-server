@@ -48,13 +48,13 @@ public class UserController {
 
 
 	//增加关注数
-	@RequestMapping(value = "/incfollow/{userid}/{x}",method = RequestMethod.POST)
+	@PostMapping("/incfollow/{userid}/{x}")
 	public void incFollowcount(@PathVariable String userid, @PathVariable int x){
 		userService.incFollowcount(userid, x);
 	}
 
 	//增加粉丝数
-	@RequestMapping(value = "/incfans/{userid}/{x}",method = RequestMethod.POST)
+	@PostMapping("/incfans/{userid}/{x}")
 	public void incFanscount(@PathVariable String userid, @PathVariable int x){
 		userService.incFanscount(userid,x);
 	}

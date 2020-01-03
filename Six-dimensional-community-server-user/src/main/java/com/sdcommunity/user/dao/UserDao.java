@@ -19,7 +19,7 @@ public interface UserDao extends JpaRepository<User,String>, JpaSpecificationExe
      * @param x
      */
     @Modifying
-    @Query("update User u set u.followcount=u.followcount+?2 where u.id=?1")
+    @Query(value = "update tb_user u set u.followcount=u.followcount+?2 where u.id=?1", nativeQuery = true)
     void incFollowcount(String userid, int x);
 
     /**
@@ -28,7 +28,7 @@ public interface UserDao extends JpaRepository<User,String>, JpaSpecificationExe
      * @param x
      */
     @Modifying
-    @Query("update User u set u.fanscount=u.fanscount+?2 where u.id=?1")
+    @Query(value = "update tb_user u set u.fanscount=u.fanscount+?2 where u.id=?1",nativeQuery = true)
     void incFanscount(String userid, int x);
 
     //查询用户
