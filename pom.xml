@@ -17,6 +17,7 @@
         <module>Six-dimensional-community-server-search</module>
         <module>Six-dimensional-community-server-user</module>
         <module>Six-dimensional-community-server-sms</module>
+        <module>Six-dimensional-community-server-eureka</module>
     </modules>
 
     <parent>
@@ -30,13 +31,12 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Greenwich.RELEASE</version>
+                <version>Greenwich.SR4</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
