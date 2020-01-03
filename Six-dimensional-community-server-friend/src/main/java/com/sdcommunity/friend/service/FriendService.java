@@ -92,7 +92,6 @@ public class FriendService {
         friendDao.deleteFriend(userid,friendid);
         // 更新关系为单向关系，如果对方没有关注自己，则这条语句找不到对应的数据进行修改，符合业务要求
         friendDao.updateIsLike("0",userid,friendid);
-        // TODO 20200103 Leon：是否需要将不关注的对象添加到非好友列表？
         // 添加到非好友列表
 //        addNoFriend(userid,friendid);
         // 减少关注数和对方的粉丝数
