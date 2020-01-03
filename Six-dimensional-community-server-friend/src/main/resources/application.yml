@@ -1,0 +1,19 @@
+server:
+  port: 9010
+spring:
+  application:
+    name: sdcommunity-friend
+  jpa:
+    database: mysql
+    show-sql: true
+  profiles:
+    active: dev
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:6868/eureka/
+jwt:
+  config:
+    key: sdcommunity

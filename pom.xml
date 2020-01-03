@@ -18,6 +18,7 @@
         <module>Six-dimensional-community-server-user</module>
         <module>Six-dimensional-community-server-sms</module>
         <module>Six-dimensional-community-server-eureka</module>
+        <module>Six-dimensional-community-server-friend</module>
     </modules>
 
     <parent>
