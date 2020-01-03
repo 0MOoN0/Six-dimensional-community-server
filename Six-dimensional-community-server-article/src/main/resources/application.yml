@@ -1,6 +1,6 @@
 server: 
   port: 9004
-spring: 
+spring:
   application:  
     name: sdcommunity-article #指定服务名
   jpa:
@@ -8,3 +8,9 @@ spring:
     show-sql: true
   profiles:
     active: dev
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:6868/eureka/

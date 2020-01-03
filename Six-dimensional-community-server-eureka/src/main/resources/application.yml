@@ -3,6 +3,9 @@ server:
 eureka:
   client:
     register-with-eureka: false # 不将自己注册到Eureka服务中
-    fetch-registry: false
+    fetch-registry: false # 是否从Eureka中获取注册信息
     service-url:
-      defalutZone: http://127.0.0.1:${server.port}/eureka
+      defalutZone: http://127.0.0.1:${server.port}/eureka/
+  instance:
+    hostname: localhost
+
