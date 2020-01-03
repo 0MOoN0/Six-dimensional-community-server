@@ -1,5 +1,6 @@
 package entity;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import lombok.Getter;
 
 @Getter
@@ -9,7 +10,8 @@ public enum StatusCode {
     LOGINERROR(20002, "用户名或密码错误"),
     ACCESSERROR(20003, "权限不足"),
     REMOTEERROR(20004, "远程调用失败"),
-    REPERROR(20005, "重复操作");
+    REPERROR(20005, "重复操作"),
+    PARAMERROR(20006, "参数错误");
 
     private Integer code;
     private String msg;
