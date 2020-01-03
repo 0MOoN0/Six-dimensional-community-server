@@ -1,7 +1,10 @@
 package com.sdcommunity.friend.service;
 
+import com.netflix.discovery.converters.Auto;
 import com.sdcommunity.friend.dao.FriendDao;
+import com.sdcommunity.friend.dao.NoFriendDao;
 import com.sdcommunity.friend.pojo.Friend;
+import com.sdcommunity.friend.pojo.NoFriend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +18,9 @@ public class FriendService {
 
     @Autowired
     private FriendDao friendDao;
+
+    @Autowired
+    private NoFriendDao noFriendDao;
 
     /**
      * 添加好友；
@@ -48,4 +54,23 @@ public class FriendService {
         return 1;
     }
 
+    /**
+     * 添加非好友
+     * @param userId
+     * @param friendId
+     * @return
+     */
+    public int addNoFriend(String userId, String friendId) {
+        // TODO 20200103 Leon：能否添加自己为非好友、添加非好友的ID也在好友列表中如何处理？
+        // 先判断是否已经是非好友
+        NoFriend noFriend = noFriendDao.findByUseridAndFriendid(userId, friendId);
+        if (noFriend != null) {
+            return 0;
+        }
+        noFriend = new NoFriend();
+        noFriend.setFriendid(friendId);
+        noFriend.setUserid(userId);
+        noFriendDao.save(noFriend);
+        return 1;
+    }
 }

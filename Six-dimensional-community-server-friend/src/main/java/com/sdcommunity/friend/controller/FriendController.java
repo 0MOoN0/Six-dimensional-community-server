@@ -52,6 +52,7 @@ public class FriendController {
                 }
             } else if("2".equals(type)) {
                 // 添加不喜欢的人
+                flag = friendService.addNoFriend(userId, friendId);
                 message = "不能重复添加非好友";
             } else {
                 return new Result(false, StatusCode.ERROR.getCode(), StatusCode.ERROR.getMsg());
