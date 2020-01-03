@@ -12,3 +12,9 @@ jwt:
   config:
     key: sdcommunity
     ttl: 604800000 # 一周过期
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:6868/eureka/
