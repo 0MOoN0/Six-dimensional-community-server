@@ -25,5 +25,5 @@ public interface UserClient {
 
     //增加关注数
     @RequestMapping(value="/user/incfollow/{userid}/{x}",method= RequestMethod.POST)
-    public void incFollowcount(@PathVariable("userid") String userid, @PathVariable("x") int x);
+    public void incFollowcount(@PathVariable("userid") String friendid, @PathVariable("x") int x);
 }

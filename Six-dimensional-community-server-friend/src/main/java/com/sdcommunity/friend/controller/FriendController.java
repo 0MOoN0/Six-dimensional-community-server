@@ -5,10 +5,7 @@ import entity.Result;
 import entity.StatusCode;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +21,18 @@ public class FriendController {
 
     @Autowired
     private FriendService friendService;
+
+    //删除好友
+    @DeleteMapping("/{friendid}")
+    public Result remove(@PathVariable String friendid){
+        Claims claims = (Claims) httpServletRequest.getAttribute("user_claims");
+        if (claims==null) {
+            return new Result(false,StatusCode.ACCESSERROR.getCode(),StatusCode.ACCESSERROR.getMsg());
+        }
+        friendService.deleteFriend(claims.getId(),friendid);
+        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+    }
+
 
     /**
      * 添加好友或者添加不喜欢的人
