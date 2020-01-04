@@ -6,8 +6,12 @@ spring:
   jpa:
     database: mysql
     show-sql: true
-  profiles:
-    active: dev
+  cloud:
+    config:
+      name: base
+      profile: dev
+      label: master
+      uri: http://127.0.0.1:12000
 eureka:
   instance:
     prefer-ip-address: true

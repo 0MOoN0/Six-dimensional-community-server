@@ -5,3 +5,8 @@ spring:
     name: sdcommunity-config
   profiles:
     active: dev
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh

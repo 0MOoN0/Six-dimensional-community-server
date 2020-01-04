@@ -5,6 +5,8 @@ import com.sdcommunity.recruit.service.LabelService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +16,12 @@ import java.util.List;
 @RestController
 @CrossOrigin            // 跨域
 @RequestMapping("/label")
+@RefreshScope
 public class LabelController {
+
+    @Value("${ip}")
+    private String ip;
+
     @Resource(name = "labelService")
     private LabelService service;
 
@@ -25,6 +32,7 @@ public class LabelController {
 
     @GetMapping("/{labelId}")
     public Result findById(@PathVariable("labelId") String id) {
+        System.out.println("IP: "+ip);
         return new Result(true, StatusCode.OK.getCode(), "查询成功", service.findById(id));
     }
 
