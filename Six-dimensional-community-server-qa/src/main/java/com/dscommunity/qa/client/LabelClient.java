@@ -1,5 +1,6 @@
 package com.dscommunity.qa.client;
 
+import com.dscommunity.qa.client.impl.LabelClientImpl;
 import entity.Result;
 import entity.StatusCode;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author Leon
  */
 @Component
-@FeignClient("sdcommunity-base")
+@FeignClient(value = "sdcommunity-base", fallback = LabelClientImpl.class)
 public interface LabelClient {
     @GetMapping("/label/{labelId}")
     Result findById(@PathVariable("labelId") String labelId);
