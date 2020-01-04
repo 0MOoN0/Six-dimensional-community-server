@@ -1,0 +1,7 @@
+server:
+  port: 12000
+spring:
+  application:
+    name: sdcommunity-config
+  profiles:
+    active: dev

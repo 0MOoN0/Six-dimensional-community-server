@@ -21,6 +21,7 @@
         <module>Six-dimensional-community-server-friend</module>
         <module>Six-dimensional-community-server-manager</module>
         <module>Six-dimensional-community-server-web</module>
+        <module>Six-dimensional-community-server-config</module>
     </modules>
 
     <parent>
