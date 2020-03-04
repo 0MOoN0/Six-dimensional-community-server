@@ -36,6 +36,4 @@ tensquare_parent/.idea
 *-dev.properties
 
 # test
-*/test/*
-
-
+/test/
