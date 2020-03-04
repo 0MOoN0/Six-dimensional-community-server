@@ -1,0 +1,13 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: sdcommunity-base
+  jpa:
+    database: mysql
+    show-sql: true
+  profiles:
+    active: dev
+eureka:
+  instance:
+    prefer-ip-address: true

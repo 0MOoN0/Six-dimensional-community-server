@@ -4,6 +4,7 @@ import com.sdcommunity.user.service.AdminService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import io.jsonwebtoken.Claims;
 import jdk.net.SocketFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,6 +31,20 @@ public class AdminController {
 	@Autowired
 	private JwtUtil jwtUtil;
 
+	@GetMapping("/info")
+	public Result getAdminInfo(@RequestParam("token") String token){
+		// 可能会抛解析错误的异常
+		Claims claims = jwtUtil.parseJWT(token);
+		String role = (String) claims.get("roles");
+		String adminName = claims.getSubject();
+		String [] roles = new String[]{role};
+		Map<String, Object> data = new HashMap<String, Object>(4,1);
+		data.put("roles",roles);
+		data.put("name",adminName);
+		data.put("role", role);
+		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), data);
+	}
+
 	@PostMapping("/login")
 	public Result login(@RequestBody Admin admin){
 		admin = adminService.login(admin);
@@ -39,7 +54,6 @@ public class AdminController {
 		String token = jwtUtil.createJWT(admin.getId(), admin.getLoginname(), "admin");
 		Map<String, Object> map = new HashMap<String, Object>(2,1);
 		map.put("token", token);
-		// TODO 20200102 Leon：返回对象带有用户密码，需要做处理
 		map.put("role","admin");
 		return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),map);
 	}

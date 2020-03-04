@@ -20,8 +20,19 @@ public class AdminServiceTest {
     @Test
     public void testAdd(){
         Admin admin = new Admin();
-        admin.setPassword("123");
+        admin.setLoginname("admin");
+        admin.setPassword("admin");
+        admin.setState("1");
         adminService.add(admin);
+    }
+
+    @Test
+    public void testUpdate(){
+        Admin admin = new Admin();
+        admin.setId("1212328961133121536");
+        admin.setLoginname("leon");
+        admin.setPassword("12345");
+        adminService.update(admin);
     }
 
 }

@@ -76,7 +76,7 @@ public class UserController {
 	 * @param mobile
 	 * @return
 	 */
-	@PostMapping("/sendsms/{mobile}")
+	@PutMapping("/sendsms/{mobile}")
 	public Result sendSms(@PathVariable String mobile){
 		// TODO 20200101 Leon： 检查手机号是否已经注册
 		userService.sendSms(mobile);

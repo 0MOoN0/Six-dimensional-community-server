@@ -19,9 +19,6 @@ import java.util.List;
 @RefreshScope
 public class LabelController {
 
-    @Value("${ip}")
-    private String ip;
-
     @Resource(name = "labelService")
     private LabelService service;
 
@@ -32,7 +29,6 @@ public class LabelController {
 
     @GetMapping("/{labelId}")
     public Result findById(@PathVariable("labelId") String id) {
-        System.out.println("IP: "+ip);
         return new Result(true, StatusCode.OK.getCode(), "查询成功", service.findById(id));
     }
 

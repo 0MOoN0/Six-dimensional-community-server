@@ -89,7 +89,7 @@ public class AdminService {
 	 * @return
 	 */
 	public Admin findById(String id) {
-		return adminDao.findById(id).get();
+		return Optional.ofNullable(adminDao.findById(id).get()).get();
 	}
 
 	/**
