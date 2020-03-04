@@ -35,4 +35,7 @@ tensquare_parent/.idea
 *-dev.yml
 *-dev.properties
 
+# test
+*/test/*
+
 
