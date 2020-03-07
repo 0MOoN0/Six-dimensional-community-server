@@ -34,6 +34,9 @@ zuul:
     tensquare-user: #用户
       path: /user/** #配置请求URL的请求规则
       serviceId: sdcommunity-user #指定Eureka注册中心中的服务id
+  host:
+    connect-timeout-millis: 10000
+    socket-timeout-millis: 60000
 jwt:
   config:
     key: sdcommunity

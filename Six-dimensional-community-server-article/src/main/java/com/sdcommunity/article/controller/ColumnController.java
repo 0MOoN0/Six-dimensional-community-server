@@ -98,5 +98,7 @@ public class ColumnController {
 		columnService.deleteById(id);
 		return new Result(true, StatusCode.OK.getCode(),"删除成功");
 	}
-	
+
+	// TODO: Leon 20200307 审核记录
+
 }

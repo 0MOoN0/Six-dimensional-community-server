@@ -22,7 +22,7 @@ public class Column implements Serializable{
 	private String name;//专栏名称
 	private String summary;//专栏简介
 	private String userid;//用户ID
-	private java.util.Date createtime;//申请日期
-	private java.util.Date checktime;//审核日期
+	private java.sql.Date createtime;//申请日期
+	private java.sql.Date checktime;//审核日期
 	private String state;//状态
 }

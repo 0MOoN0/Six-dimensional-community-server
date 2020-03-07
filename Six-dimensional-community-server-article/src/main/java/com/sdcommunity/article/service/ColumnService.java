@@ -131,6 +131,7 @@ public class ColumnService {
                 if (searchMap.get("state")!=null && !"".equals(searchMap.get("state"))) {
                 	predicateList.add(cb.like(root.get("state").as(String.class), "%"+(String)searchMap.get("state")+"%"));
                 }
+
 				
 				return cb.and( predicateList.toArray(new Predicate[predicateList.size()]));
 

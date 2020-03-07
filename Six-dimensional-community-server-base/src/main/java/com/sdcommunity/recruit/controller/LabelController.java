@@ -5,7 +5,6 @@ import com.sdcommunity.recruit.service.LabelService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -20,47 +19,53 @@ import java.util.List;
 public class LabelController {
 
     @Resource(name = "labelService")
-    private LabelService service;
+    private LabelService labelService;
 
     @GetMapping
     public Result findAll() {
-        return new Result(true, StatusCode.OK.getCode(), "查询成功", service.findAll());
+        return new Result(true, StatusCode.OK.getCode(), "查询成功", labelService.findAll());
     }
 
     @GetMapping("/{labelId}")
     public Result findById(@PathVariable("labelId") String id) {
-        return new Result(true, StatusCode.OK.getCode(), "查询成功", service.findById(id));
+        return new Result(true, StatusCode.OK.getCode(), "查询成功", labelService.findById(id));
     }
 
     @PostMapping
     public Result save(@RequestBody Label label) {
-        service.save(label);
+        labelService.save(label);
         return new Result(true, StatusCode.OK.getCode(), "添加成功");
     }
 
     @PutMapping("/{labelId}")
     public Result update(@PathVariable("labelId") String id, @RequestBody Label label) {
         label.setId(id);
-        service.update(label);
+        labelService.update(label);
         return new Result(true, StatusCode.OK.getCode(), "修改成功");
     }
 
     @DeleteMapping("/{labelId}")
     public Result deleteById(@PathVariable("labelId") String id) {
-        service.deleteById(id);
+        labelService.deleteById(id);
         return new Result(true, StatusCode.OK.getCode(), "删除成功");
     }
 
     @PostMapping("/search")
     public Result findSearch(@RequestBody Label label) {
-        List<Label> list = service.findSearch(label);
+        List<Label> list = labelService.findSearch(label);
         return new Result(true, StatusCode.OK.getCode(), "查询成功", list);
     }
 
     @PostMapping("/search/{page}/{size}")
     public Result pageQuery(@RequestBody Label label, @PathVariable("page") int currentPage, @PathVariable("size") int pageSize) {
-        Page<Label> pageData = service.pageQuery(label, currentPage, pageSize);
+        Page<Label> pageData = labelService.pageQuery(label, currentPage, pageSize);
         return new Result(true, StatusCode.OK.getCode(), "查询成功",
                 new PageResult<>(pageData.getTotalElements(), pageData.getContent()));
     }
+
+    @GetMapping("/toplist")
+    public Result hotList(){
+        return new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg(), labelService.hotlist());
+    }
+
 }

@@ -90,4 +90,9 @@ public class LabelService {
     public Page<Label> pageQuery(Label label, int currentPage, int pageSize) {
         return labelDao.findAll(searchMap(label), PageRequest.of(currentPage - 1, pageSize));
     }
+
+    public List<Label> hotlist(){
+        return labelDao.hotlist();
+    }
+
 }
