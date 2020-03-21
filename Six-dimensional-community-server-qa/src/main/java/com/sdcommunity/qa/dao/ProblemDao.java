@@ -30,6 +30,14 @@ public interface ProblemDao extends JpaRepository<Problem,String>,JpaSpecificati
     @Query(value = "SELECT * FROM tb_problem, tb_pl WHERE id = problemid AND labelid = ? ORDER BY thumbup DESC", nativeQuery = true)
     Page<Problem> thumbupList(String labelId, Pageable pageable);
 
+    @Query(value = "SELECT pl.labelid FROM tb_problem p, tb_pl pl " +
+            "WHERE " +
+            "p.id = pl.problemid " +
+            "AND " +
+            "p.id = ?1",
+    nativeQuery = true)
+    List<String> findLabelByProblemId(String problemId);
+
 /*    @Query(value = "SELECT pl.labelid as labelid, p.id as id, p.title as title, p.content as content, p.createtime as createtime, p.updatetime as updatetime, p.userid as userid, p.visits as visits, p.thumbup as thumbup, p.reply as reply, p.solve as solve, p.replyname as replyname, p.replytime as replytime " +
             "FROM tb_pl pl ,tb_problem p " +
             "WHERE pl.problemid = p.id " +

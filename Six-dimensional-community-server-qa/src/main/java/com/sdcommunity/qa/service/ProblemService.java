@@ -32,6 +32,10 @@ public class ProblemService {
     @Autowired
     private IdWorker idWorker;
 
+    public List<String> findLabelByProblemId(String problemId){
+        return problemDao.findLabelByProblemId(problemId);
+    }
+
     public Page<Problem> orderSearch(String labelId, Map orderword, int currentPage, int pageSize) {
         if (orderword.get("orderword") != null && !"".equals(orderword.get("orderword"))) {
             if (orderword.get("orderword").equals("createtime")) {
@@ -42,7 +46,6 @@ public class ProblemService {
         }
         return null;
     }
-
 
     /**
      * 最新回答

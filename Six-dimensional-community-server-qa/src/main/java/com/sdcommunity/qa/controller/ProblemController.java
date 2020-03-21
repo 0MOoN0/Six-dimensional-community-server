@@ -10,9 +10,11 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
 import utils.JwtUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +37,17 @@ public class ProblemController {
     @Autowired
     private LabelClient labelClient;
 
-    @GetMapping("/label/{labelId}")
+    @GetMapping("/label/problemid/{problemId}")
+    public Result findLabelByProblemId(@PathVariable("problemId") String problemId){
+        List<String> labelIds = problemService.findLabelByProblemId(problemId);
+        Result result = new Result(true,StatusCode.OK.getCode(),StatusCode.OK.getMsg());
+        if(labelIds!=null &&labelIds.size()>0){
+            result.setData(labelClient.findAllByIds(labelIds).getData());
+        }
+        return result;
+    }
+
+    @GetMapping("/label/labelid/{labelId}")
     public Result findLabelById(@PathVariable("labelId") String labelId){
         Result result = labelClient.findById(labelId);
         return result;

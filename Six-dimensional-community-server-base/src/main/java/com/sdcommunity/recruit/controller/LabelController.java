@@ -21,10 +21,15 @@ public class LabelController {
     @Resource(name = "labelService")
     private LabelService labelService;
 
-/*    @PostMapping("/ids")
-    public Result findAllById(@RequestBody List<String> ids){
-
-    }*/
+    /**
+     * 根据多个标签id查找
+     * @param ids
+     * @return
+     */
+    @PostMapping("/ids")
+    public Result findAllByIds(@RequestBody List<String> ids){
+        return new Result(true, StatusCode.OK.getCode(),StatusCode.OK.getMsg(),labelService.findByIdIn(ids));
+    }
 
     @GetMapping
     public Result findAll() {
