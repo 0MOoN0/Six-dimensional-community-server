@@ -1,4 +1,4 @@
-package com.dscommunity.qa.pojo;
+package com.sdcommunity.qa.pojo;
 
 import lombok.Data;
 

@@ -1,8 +1,7 @@
-package com.dscommunity.qa.client;
+package com.sdcommunity.qa.client;
 
-import com.dscommunity.qa.client.impl.LabelClientImpl;
+import com.sdcommunity.qa.client.impl.LabelClientImpl;
 import entity.Result;
-import entity.StatusCode;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;

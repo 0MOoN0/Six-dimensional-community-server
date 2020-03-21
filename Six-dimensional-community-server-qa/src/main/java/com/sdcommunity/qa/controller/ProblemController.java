@@ -1,15 +1,14 @@
-package com.dscommunity.qa.controller;
+package com.sdcommunity.qa.controller;
 
-import com.dscommunity.qa.client.LabelClient;
-import com.dscommunity.qa.pojo.Problem;
-import com.dscommunity.qa.service.ProblemService;
+import com.sdcommunity.qa.client.LabelClient;
+import com.sdcommunity.qa.pojo.Problem;
+import com.sdcommunity.qa.service.ProblemService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import utils.JwtUtil;
 
@@ -42,6 +41,17 @@ public class ProblemController {
         return result;
     }
 
+    @PostMapping("/ordersearch/{label}/{page}/{size}")
+    public Result orderSearch(@PathVariable("label")String labelId, @RequestBody Map keyword,
+                              @PathVariable("page")int currentPage,
+                              @PathVariable("size")int pageSize){
+        Page<Problem> pageData = null;
+        if(keyword.get("orderword")!=null){
+            pageData = problemService.orderSearch(labelId, keyword, currentPage, pageSize);
+        }
+        // 可能会抛出空指针异常
+        return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),new PageResult<>(pageData.getTotalElements(), pageData.getContent()));
+    }
 
     /**
      * 添加问题，需要用户登陆
@@ -60,43 +70,40 @@ public class ProblemController {
 
     /**
      * 最新问答
-     * @param labelId
      * @param currentPage
      * @param pageSize
      * @return
      */
-    @GetMapping("/newlist/{label}/{page}/{size}")
-    public Result newList(@PathVariable("label") String labelId, @PathVariable("page") int currentPage, @PathVariable("size") int pageSize){
-        Page<Problem> pageData = problemService.newList(labelId, currentPage, pageSize);
+    @GetMapping("/newlist/{page}/{size}")
+    public Result newList(@PathVariable("page") int currentPage, @PathVariable("size") int pageSize){
+        Page<Problem> pageData = problemService.newList(currentPage, pageSize);
         return new Result(true, StatusCode.OK.getCode(), "查询成功",
                 new PageResult<>(pageData.getTotalElements(), pageData.getContent()));
     }
     /**
      * 热门问答
-     * @param labelId
      * @param currentPage
      * @param pageSize
      * @return
      */
-    @GetMapping("/hotlist/{label}/{page}/{size}")
-    public Result hotList(@PathVariable("label") String labelId, @PathVariable("page") int currentPage,
+    @GetMapping("/hotlist/{page}/{size}")
+    public Result hotList(@PathVariable("page") int currentPage,
                           @PathVariable("size") int pageSize) {
-        Page<Problem> pageData = problemService.hotList(labelId, currentPage, pageSize);
+        Page<Problem> pageData = problemService.hotList(currentPage, pageSize);
         return new Result(true, StatusCode.OK.getCode(), "查询成功",
                 new PageResult<>(pageData.getTotalElements(), pageData.getContent()));
     }
 
     /**
      * 等待问答
-     * @param labelId
      * @param currentPage
      * @param pageSize
      * @return
      */
-    @GetMapping("/waitlist/{label}/{page}/{size}")
-    public Result waitList(@PathVariable("label") String labelId, @PathVariable("page") int currentPage,
+    @GetMapping("/waitlist/{page}/{size}")
+    public Result waitList(@PathVariable("page") int currentPage,
                            @PathVariable("size") int pageSize) {
-        Page<Problem> pageData = problemService.waitList(labelId, currentPage, pageSize);
+        Page<Problem> pageData = problemService.waitList(currentPage, pageSize);
         return new Result(true, StatusCode.OK.getCode(), "查询成功",
                 new PageResult<>(pageData.getTotalElements(), pageData.getContent()));
     }
@@ -131,7 +138,8 @@ public class ProblemController {
      */
     @RequestMapping(value="/search/{page}/{size}",method=RequestMethod.POST)
     public Result findSearch(@RequestBody Map searchMap , @PathVariable int page, @PathVariable int size){
-        Page<Problem> pageList = problemService.findSearch(searchMap, page, size);
+        Page<Problem> pageList = null;
+        pageList = problemService.findSearch(searchMap, page, size);
         return  new Result(true,StatusCode.OK.getCode(),"查询成功",  new PageResult<Problem>(pageList.getTotalElements(), pageList.getContent()) );
     }
 

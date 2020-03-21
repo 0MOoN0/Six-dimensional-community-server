@@ -1,7 +1,7 @@
-package com.dscommunity.qa.service;
+package com.sdcommunity.qa.service;
 
-import com.dscommunity.qa.dao.ReplyDao;
-import com.dscommunity.qa.pojo.Reply;
+import com.sdcommunity.qa.dao.ReplyDao;
+import com.sdcommunity.qa.pojo.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

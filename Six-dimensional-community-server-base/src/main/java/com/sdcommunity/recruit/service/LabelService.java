@@ -24,6 +24,15 @@ public class LabelService {
     private IdWorker idWorker;
 
     /**
+     * 根据多个Id查询
+     * @param ids
+     * @return
+     */
+    public List<Label> findByIdIn(Iterable ids){
+        return labelDao.findAllById(ids);
+    }
+
+    /**
      * 查询所有
      * @return
      */

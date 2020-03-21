@@ -1,14 +1,13 @@
-package com.dscommunity.qa.controller;
+package com.sdcommunity.qa.controller;
 
-import com.dscommunity.qa.pojo.Reply;
-import com.dscommunity.qa.service.ReplyService;
+import com.sdcommunity.qa.pojo.Reply;
+import com.sdcommunity.qa.service.ReplyService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;

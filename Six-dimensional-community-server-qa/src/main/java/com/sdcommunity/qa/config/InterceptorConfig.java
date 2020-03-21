@@ -1,6 +1,6 @@
-package com.dscommunity.qa.config;
+package com.sdcommunity.qa.config;
 
-import com.dscommunity.qa.interceptor.JwtInterceptor;
+import com.sdcommunity.qa.interceptor.JwtInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;

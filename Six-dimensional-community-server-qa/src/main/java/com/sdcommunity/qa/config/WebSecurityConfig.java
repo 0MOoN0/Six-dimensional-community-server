@@ -1,4 +1,4 @@
-package com.dscommunity.qa.config;
+package com.sdcommunity.qa.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

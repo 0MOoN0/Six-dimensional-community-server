@@ -24,4 +24,5 @@ public class PageResult<T> {
         this.totalPage = totalPage;
         this.data = data;
     }
+
 }

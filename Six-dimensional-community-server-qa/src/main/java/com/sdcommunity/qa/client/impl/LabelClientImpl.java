@@ -1,6 +1,6 @@
-package com.dscommunity.qa.client.impl;
+package com.sdcommunity.qa.client.impl;
 
-import com.dscommunity.qa.client.LabelClient;
+import com.sdcommunity.qa.client.LabelClient;
 import entity.Result;
 import entity.StatusCode;
 import org.springframework.stereotype.Component;

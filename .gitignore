@@ -37,3 +37,5 @@ tensquare_parent/.idea
 
 # test
 /test/
+/Six-dimensional-community-server-qa/src/test/java/com/sdcommunity/qa/dao/
+/Six-dimensional-community-server-base/src/test/java/com/sdcommunity/recruit/service/

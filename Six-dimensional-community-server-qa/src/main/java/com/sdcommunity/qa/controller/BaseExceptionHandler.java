@@ -1,4 +1,4 @@
-package com.dscommunity.qa.controller;
+package com.sdcommunity.qa.controller;
 import entity.Result;
 import entity.StatusCode;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,6 +1,6 @@
-package com.dscommunity.qa.dao;
+package com.sdcommunity.qa.dao;
 
-import com.dscommunity.qa.pojo.Reply;
+import com.sdcommunity.qa.pojo.Reply;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

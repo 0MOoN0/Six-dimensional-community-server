@@ -1,4 +1,4 @@
-package com.dscommunity.qa.interceptor;
+package com.sdcommunity.qa.interceptor;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;

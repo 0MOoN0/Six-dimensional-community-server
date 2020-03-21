@@ -21,6 +21,11 @@ public class LabelController {
     @Resource(name = "labelService")
     private LabelService labelService;
 
+/*    @PostMapping("/ids")
+    public Result findAllById(@RequestBody List<String> ids){
+
+    }*/
+
     @GetMapping
     public Result findAll() {
         return new Result(true, StatusCode.OK.getCode(), "查询成功", labelService.findAll());
