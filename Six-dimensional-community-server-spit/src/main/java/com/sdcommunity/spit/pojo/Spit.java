@@ -14,6 +14,7 @@ public class Spit implements Serializable {
 
     @Id
     private String _id;
+    private String cid;
     private String content;
     private Date publishtime;
     private String userid;

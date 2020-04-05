@@ -5,3 +5,6 @@ spring:
     name: sdcommunity-spit
   profiles:
     active: dev
+eureka:
+  instance:
+    prefer-ip-address: true

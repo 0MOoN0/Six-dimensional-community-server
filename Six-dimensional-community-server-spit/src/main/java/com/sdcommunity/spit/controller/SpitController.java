@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -25,6 +26,15 @@ public class SpitController {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    @PostMapping("/search/{page}/{size}")
+    public Result findSearch(@PathVariable int page,
+                             @PathVariable int size,
+                             @RequestBody Map searchMap){
+        Page<Spit> pageData = spitService.findSearch(page, size, searchMap);
+        return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(),
+                new PageResult<>(pageData.getTotalElements(),pageData.getContent()));
+    }
 
     @GetMapping
     public Result findAll() {
@@ -81,4 +91,15 @@ public class SpitController {
         return new Result(true,StatusCode.OK.getCode(),"点赞成功");
     }
 
+    @GetMapping("/thumbup/{spitid}")
+    public Result isThumbup(@PathVariable String spitid){
+        // 模拟用户ID
+        String userid = "123";
+        if(redisTemplate.opsForValue().get("thumbup_"+userid+"_"+spitid) != null){
+            // 已经点赞过
+            return new Result(true, StatusCode.OK.getCode(),StatusCode.OK.getMsg(),1);
+        }else{
+            return new Result(true, StatusCode.OK.getCode(),StatusCode.OK.getMsg(),0);
+        }
+    }
 }

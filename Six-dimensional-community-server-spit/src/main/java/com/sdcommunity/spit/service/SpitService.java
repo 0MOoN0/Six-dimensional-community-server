@@ -3,6 +3,8 @@ package com.sdcommunity.spit.service;
 import com.sdcommunity.spit.dao.SpitDao;
 import com.sdcommunity.spit.pojo.Spit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -14,6 +16,7 @@ import utils.IdWorker;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Leon
@@ -30,6 +33,41 @@ public class SpitService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    protected Spit MapToPojo(Map searchMap){
+        Spit spit = new Spit();
+        if(searchMap == null){
+            return spit;
+        }
+        if(searchMap.get("cid") != null){
+            spit.setCid(String.valueOf(searchMap.get("cid")));
+        }
+        if(searchMap.get("publishtime") != null){
+            spit.setPublishtime((Date) searchMap.get("cid"));
+        }
+        if(searchMap.get("userid") != null){
+            spit.setUserid(String.valueOf(searchMap.get("userid")));
+        }
+        if(searchMap.get("nickname") != null){
+            spit.setNickname(String.valueOf(searchMap.get("nickname")));
+        }
+        if(searchMap.get("visits") != null){
+            spit.setVisits(Integer.parseInt(String.valueOf(searchMap.get("visits"))));
+        }
+        if(searchMap.get("state") != null){
+            spit.setState(String.valueOf(searchMap.get("state")));
+        }
+        if(searchMap.get("parentid") != null){
+            spit.setParentid(String.valueOf(searchMap.get("parentid")));
+        }
+        return spit;
+    }
+
+    public Page<Spit> findSearch(int page , int size, Map searchMap){
+        Spit spit = MapToPojo(searchMap);
+        Example<Spit> example = Example.of(spit);
+        return spitDao.findAll(example, PageRequest.of(page - 1, size));
+    }
+
     public List<Spit> findAll(){
         return spitDao.findAll();
     }
@@ -39,7 +77,7 @@ public class SpitService {
     }
 
     public void save(Spit spit){
-        spit.set_id(String.valueOf(idWorker.nextId()));
+        spit.setCid(String.valueOf(idWorker.nextId()));
         spit.setPublishtime(new Date());
         spit.setVisits(0);
         spit.setShare(0);
@@ -76,7 +114,7 @@ public class SpitService {
      */
     public void updateThumbup(String id) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").is(id));
+        query.addCriteria(Criteria.where("cid").is(id));
         Update update = new Update();
         update.inc("thumbup", 1);
         mongoTemplate.updateFirst(query,update,Spit.class);
