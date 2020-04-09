@@ -73,7 +73,7 @@ public class SpitService {
     }
 
     public Spit findById(String id){
-        return spitDao.findById(id).get();
+        return spitDao.findSpitByCidEquals(id);
     }
 
     public void save(Spit spit){
@@ -85,9 +85,9 @@ public class SpitService {
         spit.setComment(0);
         spit.setState("1");
         // 如果存在上级评论，则给上级评论的回复数加一
-        if(spit.getParentid()!=null && !"".equals(spit.getParentid())){
+        if(spit.getParentid()!=null && !"-1".equals(spit.getParentid())){
             Query query = new Query();
-            query.addCriteria(Criteria.where("_id").is(spit.getParentid()));
+            query.addCriteria(Criteria.where("cid").is(spit.getParentid()));
             Update update = new Update();
             update.inc("comment", 1);
             mongoTemplate.updateFirst(query,update,Spit.class);

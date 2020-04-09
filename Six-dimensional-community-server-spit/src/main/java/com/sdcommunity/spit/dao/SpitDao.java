@@ -18,4 +18,11 @@ public interface SpitDao extends MongoRepository<Spit, String> {
      */
     Page<Spit> findByParentid(String parentid, Pageable pageable);
 
+    /**
+     * 根据ID查找吐槽
+     * @param cid
+     * @return
+     */
+    Spit findSpitByCidEquals(String cid);
+
 }

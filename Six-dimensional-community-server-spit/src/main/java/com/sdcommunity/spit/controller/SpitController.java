@@ -66,7 +66,7 @@ public class SpitController {
     }
 
     //根据上级ID查询吐槽分页数据
-    @RequestMapping(value = "/comment/{parentId}/{page}/{size}",method = RequestMethod.GET)
+    @RequestMapping(value = "/commentlist/{parentId}/{page}/{size}",method = RequestMethod.GET)
     public Result findByParenid(@PathVariable String parentId,@PathVariable int page,@PathVariable int size){
         Page<Spit> pageList = spitService.findByParentid(parentId, page, size);
         return new Result(true,StatusCode.OK.getCode(),"查询成功",new PageResult<>(pageList.getTotalElements(),pageList.getContent()));
