@@ -3,10 +3,7 @@ package com.sdcommunity.spit.service;
 import com.sdcommunity.spit.dao.SpitDao;
 import com.sdcommunity.spit.pojo.Spit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -65,7 +62,8 @@ public class SpitService {
     public Page<Spit> findSearch(int page , int size, Map searchMap){
         Spit spit = MapToPojo(searchMap);
         Example<Spit> example = Example.of(spit);
-        return spitDao.findAll(example, PageRequest.of(page - 1, size));
+        Sort sort = Sort.by("publishtime").descending();
+        return spitDao.findAll(example, PageRequest.of(page - 1, size, sort));
     }
 
     public List<Spit> findAll(){
