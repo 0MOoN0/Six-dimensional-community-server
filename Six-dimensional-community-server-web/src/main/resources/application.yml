@@ -25,6 +25,7 @@ zuul:
     tensquare-qa: #问答
       path: /qa/** #配置请求URL的请求规则
       serviceId: sdcommunity-qa #指定Eureka注册中心中的服务id
+      sensitiveHeaders: # 不过滤请求头
     tensquare-recruit: #招聘
       path: /recruit/** #配置请求URL的请求规则
       serviceId: sdcommunity-recruit #指定Eureka注册中心中的服务id

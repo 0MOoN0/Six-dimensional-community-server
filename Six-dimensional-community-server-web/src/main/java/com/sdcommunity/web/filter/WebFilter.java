@@ -39,7 +39,7 @@ public class WebFilter extends ZuulFilter {
         // 判断是否有头信息
         if (!StringUtils.isEmpty(header)) {
             // 把头信息继续往下传
-            currentContext.addZuulRequestHeader("Authorization", header);
+            currentContext.addZuulRequestHeader("authorization", header);
         }
         return null;
     }

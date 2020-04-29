@@ -3,7 +3,7 @@ package entity;
 import lombok.Data;
 
 @Data
-public class Result {
+public class Result<T> {
     // 是否成功
     private Boolean flag;
     // 返回码
@@ -25,7 +25,7 @@ public class Result {
         this.message = message;
     }
 
-    public Result(Boolean flag, Integer code, String message, Object data) {
+    public Result(Boolean flag, Integer code, String message, T data) {
         this.flag = flag;
         this.code = code;
         this.message = message;

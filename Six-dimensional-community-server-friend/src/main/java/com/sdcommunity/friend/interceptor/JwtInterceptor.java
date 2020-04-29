@@ -24,10 +24,10 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // TODO 20200102 Leon Token过期时的异常处理，提醒用户重新登陆或者直接放行
-        String athorization = request.getHeader("Authorization");
-        if (!StringUtils.isEmpty(athorization)) {
-            if (athorization.startsWith("Bearer ")) {
-                final String token = athorization.substring(7);
+        String authorization = request.getHeader("Authorization");
+        if (!StringUtils.isEmpty(authorization)) {
+            if (authorization.startsWith("Bearer ")) {
+                final String token = authorization.substring(7);
                 Claims claims = jwtUtil.parseJWT(token);
                 if (claims != null) {
                     if ("admin".equals(claims.get("roles"))) {

@@ -5,7 +5,9 @@ import lombok.Data;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 实体类
@@ -31,4 +33,6 @@ public class Problem implements Serializable{
 	private String solve;//是否解决
 	private String replyname;//回复人昵称
 	private java.util.Date replytime;//回复日期
+    @Transient
+    private List labels;    // 问题的标签列表，值为列表ID
 }

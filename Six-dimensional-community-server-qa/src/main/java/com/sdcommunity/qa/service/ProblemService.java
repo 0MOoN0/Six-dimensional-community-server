@@ -1,13 +1,16 @@
 package com.sdcommunity.qa.service;
 
 import com.sdcommunity.qa.dao.ProblemDao;
+import com.sdcommunity.qa.dao.ProblemLabelDao;
 import com.sdcommunity.qa.pojo.Problem;
+import com.sdcommunity.qa.pojo.ProblemLabel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import utils.IdWorker;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,6 +18,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,13 +28,21 @@ import java.util.Map;
  * @author Administrator
  */
 @Service
+@Transactional
 public class ProblemService {
+
+    @Autowired
+    private ProblemLabelDao problemLabelDao;
 
     @Autowired
     private ProblemDao problemDao;
 
     @Autowired
     private IdWorker idWorker;
+
+    public void updateThumbup(int thumbup, String problemid){
+        problemDao.updateProblemThumbup(thumbup, problemid);
+    }
 
     public List<String> findLabelByProblemId(String problemId){
         return problemDao.findLabelByProblemId(problemId);
@@ -134,7 +146,21 @@ public class ProblemService {
      * @param problem
      */
     public void add(Problem problem) {
-        problem.setId(idWorker.nextId() + "");
+        String pid = String.valueOf(idWorker.nextId());
+        problem.setId(pid);
+        problem.setCreatetime(new Date());
+        problem.setUpdatetime(new Date());
+        problem.setVisits(0L);
+        problem.setThumbup(0L);
+        problem.setReply(0L);
+        problem.setSolve("0");
+        //  封装ProblemLabel
+        if(problem.getLabels()!=null && problem.getLabels().size()>0){
+            List<ProblemLabel> problemLabels = new ArrayList<ProblemLabel>();
+            problem.getLabels().forEach(labelId->problemLabels.add(new ProblemLabel(pid, (String) labelId)));
+            // 保存Problem和Label的对应关系
+            problemLabelDao.saveAll(problemLabels);
+        }
         problemDao.save(problem);
     }
 

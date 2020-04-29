@@ -40,9 +40,10 @@ public class UserController {
 			return new Result(false, StatusCode.LOGINERROR.getCode(),StatusCode.LOGINERROR.getMsg());
 		}
 		String token = jwtUtil.createJWT(user.getId(), user.getMobile(), "user");
-		Map<String, Object> map = new HashMap<String,Object>(2,1);
+		Map<String, Object> map = new HashMap<String,Object>(4,1);
 		map.put("token",token);
 		map.put("roles","user");
+		map.put("name", user.getNickname());
 		return  new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), map);
 	}
 

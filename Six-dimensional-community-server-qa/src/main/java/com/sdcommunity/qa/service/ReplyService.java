@@ -1,5 +1,6 @@
 package com.sdcommunity.qa.service;
 
+import com.sdcommunity.qa.dao.ProblemDao;
 import com.sdcommunity.qa.dao.ReplyDao;
 import com.sdcommunity.qa.pojo.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import utils.IdWorker;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -14,6 +16,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +27,14 @@ import java.util.Map;
  *
  */
 @Service
+@Transactional
 public class ReplyService {
 
 	@Autowired
 	private ReplyDao replyDao;
+
+	@Autowired
+	private ProblemDao problemDao;
 	
 	@Autowired
 	private IdWorker idWorker;
@@ -79,7 +86,13 @@ public class ReplyService {
 	 * @param reply
 	 */
 	public void add(Reply reply) {
+		Date date = new Date();
 		reply.setId( idWorker.nextId()+"" );
+		reply.setCreatetime(date);
+		reply.setUpdatetime(date);
+		reply.setThumbup(0);
+		// 增加Problem回复数
+		problemDao.updateProblemReply(reply.getNickname(),date,reply.getProblemid());
 		replyDao.save(reply);
 	}
 
@@ -131,7 +144,10 @@ public class ReplyService {
                 if (searchMap.get("nickname")!=null && !"".equals(searchMap.get("nickname"))) {
                 	predicateList.add(cb.like(root.get("nickname").as(String.class), "%"+(String)searchMap.get("nickname")+"%"));
                 }
-				return cb.and( predicateList.toArray(new Predicate[predicateList.size()]));
+                query.where(cb.and( predicateList.toArray(new Predicate[predicateList.size()])));
+                // 按照点赞数排序
+                query.orderBy(cb.desc(root.get("thumbup")),cb.asc(root.get("createtime")));
+				return query.getRestriction();
 			}
 		};
 	}

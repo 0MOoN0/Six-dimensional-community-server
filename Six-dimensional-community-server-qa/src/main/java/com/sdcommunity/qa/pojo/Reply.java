@@ -25,4 +25,5 @@ public class Reply implements Serializable{
 	private java.util.Date updatetime;//更新日期
 	private String userid;//回答人ID
 	private String nickname;//回答人昵称
+	private Integer thumbup;//点赞数
 }

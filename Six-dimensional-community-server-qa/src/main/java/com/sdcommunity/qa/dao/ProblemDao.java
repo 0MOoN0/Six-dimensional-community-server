@@ -5,8 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,10 +40,16 @@ public interface ProblemDao extends JpaRepository<Problem,String>,JpaSpecificati
     nativeQuery = true)
     List<String> findLabelByProblemId(String problemId);
 
-/*    @Query(value = "SELECT pl.labelid as labelid, p.id as id, p.title as title, p.content as content, p.createtime as createtime, p.updatetime as updatetime, p.userid as userid, p.visits as visits, p.thumbup as thumbup, p.reply as reply, p.solve as solve, p.replyname as replyname, p.replytime as replytime " +
-            "FROM tb_pl pl ,tb_problem p " +
-            "WHERE pl.problemid = p.id " +
-            "AND p.id = ?1", nativeQuery = true)
-    List<Map<String,Object>> findByLabelId(String problemId);*/
+    @Query(value="UPDATE tb_problem SET reply = reply + ?1 WHERE id = ?2",nativeQuery = true)
+    @Modifying
+    int updateReplyCount(int count, String problemId);
+
+    @Query(value="UPDATE tb_problem SET reply = reply + 1, replyname = ?1, replytime = ?2 WHERE id = ?3", nativeQuery = true)
+    @Modifying
+    int updateProblemReply(String replyName, Date replytime, String ProblemId);
+
+    @Query(value = "UPDATE tb_problem SET thumbup = thumbup + ?1 WHERE id = ?2", nativeQuery = true)
+    @Modifying
+    int updateProblemThumbup(int thumbup, String problemId);
 
 }

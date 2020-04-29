@@ -30,7 +30,6 @@ public class JwtInterceptor implements HandlerInterceptor {
                 final String token = athorization.substring(7);
                 Claims claims = jwtUtil.parseJWT(token);
                 if (claims != null) {
-                    // TODO 20200103 Leon：如果角色很多时则需要写很多if-else，能否改用策略模式，或者从数据库中获取
                     if ("admin".equals(claims.get("roles"))) {
                         request.setAttribute("admin_claims", claims);
                     }
