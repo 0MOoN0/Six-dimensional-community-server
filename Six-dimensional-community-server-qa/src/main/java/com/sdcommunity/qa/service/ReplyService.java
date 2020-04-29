@@ -39,6 +39,11 @@ public class ReplyService {
 	@Autowired
 	private IdWorker idWorker;
 
+	public void updateThumbup(int thumbup, String replyid){
+		replyDao.updateReplyThumbup(thumbup,replyid);
+	}
+
+
 	/**
 	 * 查询全部列表
 	 * @return

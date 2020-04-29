@@ -10,10 +10,12 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import utils.JwtUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
@@ -37,6 +39,35 @@ public class ReplyController {
 
 	@Autowired
 	private RedisTemplate redisTemplate;
+
+	/**
+	 * 问题回复的点赞功能，与问题点赞功能业务相同
+	 * @param replyid
+	 * @return
+	 */
+	@PutMapping("/thumbup/{replyid}/{type}")
+	public Result replyThumbup(@PathVariable @NotNull String replyid, @PathVariable @NotNull String type){
+		Claims claims = (Claims) httpServletRequest.getAttribute("user_claims");
+		if (claims == null) {
+			return new Result(false, StatusCode.ACCESSERROR.getCode(), StatusCode.ACCESSERROR.getMsg());
+		}
+		String uid = claims.getId();
+		Boolean opsResult = redisTemplate.opsForValue().setIfAbsent("qa_" + "thumbup_" + uid + "_" + replyid, type);
+		// 判断类型
+		if (!opsResult) {
+			String opsType = (String) redisTemplate.opsForValue().get("qa_" + "thumbup_" + uid + "_" + replyid);
+			// 判断是否同类型操作
+			if (!StringUtils.isEmpty(opsType) && opsType.equals(type)) {
+				return new Result(true, StatusCode.REPERROR.getCode(), "你已经点过赞/踩了");
+			} else {
+				// 移除缓存中的key
+				redisTemplate.delete("qa_" + "thumbup_" + uid + "_" + replyid);
+			}
+		}
+		// 更新数据库
+		replyService.updateThumbup(Integer.parseInt(type), replyid);
+		return new Result(true, StatusCode.OK.getCode(), "操作成功");
+	}
 	
 	/**
 	 * 查询全部数据

@@ -117,7 +117,7 @@ public class ProblemController {
         }
         problem.setUserid(claims.getId());
         problemService.add(problem);
-        return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg());
+        return new Result(true, StatusCode.OK.getCode(), StatusCode.OK.getMsg(), problem.getId());
     }
 
     /**
