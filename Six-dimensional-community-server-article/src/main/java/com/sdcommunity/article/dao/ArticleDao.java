@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 /**
  * @author Leon
  */
@@ -22,5 +24,8 @@ public interface ArticleDao extends JpaRepository<Article,String>, JpaSpecificat
     @Modifying
     @Query(value = "UPDATE tb_article SET comment = comment + 1 WHERE id = ?",nativeQuery = true)
     void addComment(String id);
+
+    List<Article> findAllByIstopEqualsAndIspublic(String istop, String ispublic);
+
 
 }

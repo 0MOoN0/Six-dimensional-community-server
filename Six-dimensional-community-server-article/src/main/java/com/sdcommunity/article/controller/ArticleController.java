@@ -5,10 +5,13 @@ import com.sdcommunity.article.service.ArticleService;
 import entity.PageResult;
 import entity.Result;
 import entity.StatusCode;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
@@ -23,6 +26,15 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleService articleService;
+
+	@Autowired
+	private HttpServletRequest httpServletRequest;
+
+	// 获取置顶文章
+	@GetMapping("/toparticle")
+	public Result getTopArticle(){
+		return new Result(true, StatusCode.OK.getCode(),StatusCode.OK.getMsg(), articleService.findToparticle());
+	}
 
 	/**
 	 * 文章审核
@@ -89,11 +101,17 @@ public class ArticleController {
 	 * 增加
 	 * @param article
 	 */
-	@RequestMapping(method=RequestMethod.POST)
-	public Result add(@RequestBody Article article  ){
-		// TODO 20200102 Leon：添加文章需要登陆
+	@PostMapping
+	public Result add(@RequestBody @NotNull Article article){
+		// 获取用户信息
+		Claims claims = (Claims) httpServletRequest.getAttribute("user_claims");
+		if (claims == null) {
+			return new Result(false, StatusCode.ACCESSERROR.getCode(), StatusCode.ACCESSERROR.getMsg());
+		}
+		String uid = claims.getId();
+		article.setUserid(uid);
 		articleService.add(article);
-		return new Result(true, StatusCode.OK.getCode(), "增加成功");
+		return new Result(true, StatusCode.OK.getCode(), "增加成功", article.getId());	// 返回生成的id
 	}
 	
 	/**

@@ -5,6 +5,7 @@ import com.sdcommunity.article.pojo.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -17,10 +18,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -42,6 +40,10 @@ public class ArticleService {
 
 	@Autowired
 	private RedisTemplate redisTemplate;
+
+	public List<Article> findToparticle(){
+		return articleDao.findAllByIstopEqualsAndIspublic(String.valueOf(1),String.valueOf(1));
+	}
 
     public void updateState(String id) {
 		articleDao.updateState(id);
@@ -68,9 +70,8 @@ public class ArticleService {
 		return articleDao.findAll();
 	}
 
-	
 	/**
-	 * 条件查询+分页
+	 * 条件查询+分页	默认使用排序
 	 * @param whereMap
 	 * @param page
 	 * @param size
@@ -78,7 +79,8 @@ public class ArticleService {
 	 */
 	public Page<Article> findSearch(Map whereMap, int page, int size) {
 		Specification<Article> specification = createSpecification(whereMap);
-		PageRequest pageRequest =  PageRequest.of(page-1, size);
+		PageRequest pageRequest =  PageRequest.of(page-1, size,
+				Sort.by("visits").descending().and(Sort.by("thumbup").descending()).and(Sort.by("comment").descending()));
 		return articleDao.findAll(specification, pageRequest);
 	}
 
@@ -99,6 +101,15 @@ public class ArticleService {
 	 */
 	public void add(Article article) {
 		article.setId( idWorker.nextId()+"" );
+		Date date = new Date();
+		article.setCreatetime(date);
+		article.setUpdatetime(date);
+		article.setIstop("0");
+		article.setVisits(0);
+		article.setThumbup(0);
+		article.setComment(0);
+		article.setState("0");
+		article.setType("0");
 		articleDao.save(article);
 	}
 
@@ -180,9 +191,9 @@ public class ArticleService {
                 if (searchMap.get("type")!=null && !"".equals(searchMap.get("type"))) {
                 	predicateList.add(cb.like(root.get("type").as(String.class), "%"+(String)searchMap.get("type")+"%"));
                 }
-				
+                // 排序，根据关键字进行排序
+//				query.orderBy(cb.desc(root.get("visit").as(String.class)), cb.desc(root.get("thumbup").as(String.class)),cb.desc(root.get("comment").as(String.class)));
 				return cb.and( predicateList.toArray(new Predicate[predicateList.size()]));
-
 			}
 		};
 

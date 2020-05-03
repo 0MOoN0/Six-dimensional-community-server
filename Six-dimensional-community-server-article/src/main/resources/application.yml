@@ -8,6 +8,10 @@ spring:
     show-sql: true
   profiles:
     active: dev
+jwt:
+  config:
+    key: sdcommunity
+    ttl: 604800000 # 一周过期
 eureka:
   instance:
     prefer-ip-address: true

@@ -228,10 +228,8 @@ public class ProblemService {
                     query.orderBy(cb.desc(root.get(String.valueOf(searchMap.get("orderword"))).as(String.class)));
                 }
                 return cb.and(predicateList.toArray(new Predicate[predicateList.size()]));
-
             }
         };
-
     }
 
 }

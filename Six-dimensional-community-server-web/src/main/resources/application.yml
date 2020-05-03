@@ -16,6 +16,7 @@ zuul:
     tensquare-article: #文章
       path: /article/** #配置请求URL的请求规则
       serviceId: sdcommunity-article #指定Eureka注册中心中的服务id
+      sensitiveHeaders: # 不过滤请求头
     tensquare-base: #基础
       path: /base/** #配置请求URL的请求规则
       serviceId: sdcommunity-base #指定Eureka注册中心中的服务id

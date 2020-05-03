@@ -29,7 +29,7 @@ public class ChannelController {
 	 * 查询全部数据
 	 * @return
 	 */
-	@RequestMapping(method= RequestMethod.GET)
+	@GetMapping
 	public Result findAll(){
 		return new Result(true, StatusCode.OK.getCode(),"查询成功",channelService.findAll());
 	}

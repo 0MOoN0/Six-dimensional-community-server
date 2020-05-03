@@ -19,9 +19,6 @@ public class Article implements Serializable{
 
 	@Id
 	private String id;//ID
-
-
-	
 	private String columnid;//专栏ID
 	private String userid;//用户ID
 	private String title;//标题
@@ -38,4 +35,5 @@ public class Article implements Serializable{
 	private String channelid;//所属频道
 	private String url;//URL
 	private String type;//类型
+	private String nickname; //用户昵称
 }
