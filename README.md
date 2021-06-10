@@ -1,2 +1,2 @@
 # Six-dimensional-community-server
-A simple SpringCloud project
+一个基于SpringCloud的网络社交系统
